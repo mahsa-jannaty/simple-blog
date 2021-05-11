@@ -19,8 +19,7 @@
     <body dir="rtl" class="text-right">
     @include('flash::message')
 
-        @include('includes.navbar')
-        @include('includes.header')
+        
         <!-- Main Content-->
         <div class="container">
             <div class="row">

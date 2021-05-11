@@ -4,28 +4,68 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
     public function index()
     {
-        // $posts = Post::where('title', 'like', '%دوم%')->get();
-        // $posts = Post::where('id', '>', '0')->latest()->get();
-        // $posts = Post::where('title', 'عنوان پست دوم')->take(1)->get();
-        // $posts = Post::where('id', 2)->orWhere('title', 'عنوان پست اول')->get();
-        // $posts = Post::where('id', 2)->where('title', 'عنوان پست دوم')->get();
-        // $posts = Post::where('title', 'عنوان پست دوم')->get();
-        // $posts = Post::where('id', '1')->get();
-        // $posts = Post::find(1);
         $posts = Post::latest()->get();
-
         return view('posts.index', compact('posts'));
     }
-    // public function show($id)
     public function show(Post $post)
     {
-        // $post = Post::findOrFail($id);
+        // $comments = Comment::where('post_id', $post->id)->latest()->get();
+        $comments = $post->comments()->latest()->get();
+        
+        return view('posts.show', compact('post', 'comments'));
+    }
+    public function add()
+    {
+        return view('posts.add');
+    }
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title'         =>      'required|unique:posts',
+            'description'   =>      'required|min:3|max:255'
+        ]);
 
-        return view('posts.show', compact('post'));
+        $post = new Post();
+        $post->title = $validatedData['title'];
+        $post->description = $validatedData['description'];
+        $post->save();
+
+        flash('پست جدید با موفقیت ذخیره شد.', 'success');
+        return redirect()->back();
+        
+    }
+
+    public function edit(Post $post)
+    {
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $validatedData = $request->validate([
+            'title'         =>      'required',
+            'description'   =>      'required|min:3|max:255'
+        ]);
+
+        $post->title = $validatedData['title'];
+        $post->description = $validatedData['description'];
+        $post->save();
+
+        flash('پست با موفقیت ذخیره شد.', 'success');
+        return redirect()->back();
+    }
+
+    public function delete(Post $post)
+    {  
+        $post->delete();
+
+        flash('پست با موفقیت حذف شد.', 'success');
+        return redirect()->back();
     }
 }

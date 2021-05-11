@@ -10528,3 +10528,9 @@ header.masthead .post-heading .meta a {
         font-size: 36px;
     }
 }
+
+.alert {
+    position: absolute;
+    z-index: 10000;
+    width: 100%;
+}

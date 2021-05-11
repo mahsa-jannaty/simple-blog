@@ -12,7 +12,9 @@
         <h2 class="post-title">{{$post->title}}</h2>
         <h3 class="post-subtitle">{{Str::limit($post->description, 240)}}</h3>
         <div class="text-left">
-        <a href="{{url('/posts/'.$post->id)}}">ادامه مطلب</a>
+        <a class="btn btn-primary" href="{{url('/posts/'.$post->id)}}">ادامه مطلب</a>
+        <a class="btn btn-danger" href="{{url('/posts/delete/'.$post->id)}}">حذف</a>
+        <a class="btn btn-default" href="{{url('/posts/edit/'.$post->id)}}">ویرایش</a>
         </div>
     </a>
     <p class="post-meta">
