@@ -4,3 +4,8 @@ session 1:
 - controllers
 - models
 - migrations
+session 2:
+- Eloquent
+- CRUD
+- Form validations
+- Relations
